@@ -1,5 +1,6 @@
 env
 __pycache__
 .env
-compile_code.json
+compiled_code.json
 contract/artifacts
+abi.json
