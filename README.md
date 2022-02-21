@@ -22,6 +22,10 @@ Move to project directory
 &emsp; install required package : `pip install -r requirements.txt` <br />
 &emsp; run flask `flask run`
 
+#### without virtual env
+&emsp; install required package : `pip install -r requirements.txt` <br />
+&emsp; run flask `flask run`
+
 
 
 
