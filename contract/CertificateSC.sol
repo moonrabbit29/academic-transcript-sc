@@ -9,6 +9,8 @@ contract CertificateSC {
         uint256 Timestamp;
     }
 
+    event IsSuccess(bool value);
+
     constructor() payable {
         owner = payable(msg.sender);
     }
@@ -37,23 +39,17 @@ contract CertificateSC {
         onlyOwner
         returns (bool success)
     {
-        if (studentToTranscript[studentId].length > 0) {
-            if (
-                is_transcript_exist(
-                    transcriptHash,
-                    studentToTranscript[studentId]
-                )
-            ) {
-                return false;
-            } else {
-                studentToTranscript[studentId].push(
-                    Transcript(transcriptHash, block.timestamp)
-                );
-            }
+        if (
+            is_transcript_exist(transcriptHash, studentToTranscript[studentId])
+        ) {
+            emit IsSuccess(false);
+            return false;
         } else {
             studentToTranscript[studentId].push(
                 Transcript(transcriptHash, block.timestamp)
             );
+            emit IsSuccess(true);
+            return true;
         }
     }
 
@@ -66,15 +62,14 @@ contract CertificateSC {
         return studentToTranscript[studentId];
     }
 
-    function verify_certificate_transcript(bytes32 transcriptHash,bytes32 studentId)
-        public
-        view
-        returns (bool)
-    {
-        bool transcriptExist =  is_transcript_exist(
-                    transcriptHash,
-                    studentToTranscript[studentId]
-                );
+    function verify_certificate_transcript(
+        bytes32 transcriptHash,
+        bytes32 studentId
+    ) public view returns (bool) {
+        bool transcriptExist = is_transcript_exist(
+            transcriptHash,
+            studentToTranscript[studentId]
+        );
         return transcriptExist;
     }
 }
