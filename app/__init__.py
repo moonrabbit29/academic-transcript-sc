@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Flask, request, jsonify, send_file
 from web3 import Web3
 from flask_cors import CORS, cross_origin
@@ -18,7 +17,7 @@ def issuing():
     data = request.get_json()
     result = web3helper.issuing_transcript(
         data['tc_hash'], data['student_hash'])
-    return f"The configured secret key is Yahaloo."
+    return jsonify(result), result["status"]
 
 
 @app.route("/api/retrieve-transcript", methods=['POST'])
@@ -27,4 +26,4 @@ def retrieve():
     data = request.get_json()
     result = web3helper.retrieve_transcript(
         data['student_hash'])
-    return f"The configured secret key is Yahaloo."
+    return jsonify(result), result["status"]

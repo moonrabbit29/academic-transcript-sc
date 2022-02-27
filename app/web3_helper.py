@@ -1,8 +1,14 @@
 from web3 import Web3
 import json
+from datetime import datetime
 
 
 class Web3Helper:
+
+    def __simplified(self, tuple):
+        ts = datetime.utcfromtimestamp(tuple[1]).strftime('%Y-%m-%d %H:%M:%S')
+        return {"data_hash": tuple[0].hex(), "timestamp": ts}
+
     def __init__(self, app):
         self.w3 = Web3(Web3.HTTPProvider(
             app.config.get('ETHEREUM_ENDPOINT_URI')))
@@ -32,16 +38,34 @@ class Web3Helper:
         )
         signed_register_txn = self.w3.eth.account.sign_transaction(
             register_tc_tx, private_key=self.private_key)
-        send_register_tx = self.w3.eth.send_raw_transaction(
-            signed_register_txn.rawTransaction)
-        tx_receipt = self.w3.eth.wait_for_transaction_receipt(send_register_tx)
-        retVal = self.w3.eth.getTransactionReceipt(
-            tx_receipt['transactionHash'])['logs'][0]['data']
-        print(f"retVal => {retVal}")
-        return "testing aja"
+
+        try:
+            send_register_tx = self.w3.eth.send_raw_transaction(
+                signed_register_txn.rawTransaction)
+        except Exception as ex:
+            return {"status": 500, "data": {}, "message": f"Failed to transact with the SC. This {ex} is causing the error"}
+        try:
+            tx_receipt = self.w3.eth.wait_for_transaction_receipt(
+                send_register_tx, timeout=120)
+        except Web3.exceptions.TimeExhausted:
+            return {"status": 500, "data": {}, "message": "Couldn't get transaction receipt timeout"}
+        except Exception as ex:
+            return {"status": 500, "data": {}, "message": f"Couldn't get transaction receipt. This {ex} causing an error"}
+        is_file_not_present = int(tx_receipt['logs'][0]['data'][2:])
+        transaction_hash = tx_receipt["transactionHash"].hex()
+        block_hash = tx_receipt["blockHash"].hex()
+        if(is_file_not_present and tx_receipt['status']):
+            return {"status": 400, "data": {"tx_hash": transaction_hash, "block_hash": block_hash}, "message": "SUCCESS"}
+        elif (not is_file_not_present):
+            return {"status": 200, "data": {"tx_hash": transaction_hash, "block_hash": block_hash}, "message": "Data already in blockchain"}
+        return {"status": 304, "data": {}, "message": "Transaction failed, failed to add transcript to blockchain"}
 
     def retrieve_transcript(self, student_hash):
-        student_tc = self.counter.functions.retrieve_student_transcript(
-            student_hash).call()
-        print(f"retVal => {student_tc}")
-        return "testing aja"
+        try:
+            student_tc_raw = self.counter.functions.retrieve_student_transcript(
+                student_hash).call()
+        except Exception as ex:
+            return {"status": 500, "data": {}, "message": f"Couldn't get transaction to be done. This {ex} causing an error"}
+
+        student_tc = list(map(self.__simplified, student_tc_raw))
+        return {"status": 400, "data": student_tc, "message": "SUCCESS"}
