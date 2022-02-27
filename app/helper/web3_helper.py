@@ -1,9 +1,10 @@
 from web3 import Web3
 import json
+from app.helper.hash import Hash
 from datetime import datetime
 
 
-class Web3Helper:
+class Web3Helper(Hash):
 
     def __simplified(self, tuple):
         ts = datetime.utcfromtimestamp(tuple[1]).strftime('%Y-%m-%d %H:%M:%S')
