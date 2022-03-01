@@ -58,6 +58,7 @@ transaction = CertificateSC.constructor().buildTransaction(
 # Sign the transaction
 # deploy in local ganache use private_key_dev
 private_key = os.environ.get("PRIVATE_KEY_DEV")
+# store transaction 4:16:43
 print(f"private key {private_key}")
 signed_txn = w3.eth.account.sign_transaction(
     transaction, private_key=private_key)
