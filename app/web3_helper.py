@@ -38,6 +38,7 @@ class Web3Helper:
         retVal = self.w3.eth.getTransactionReceipt(
             tx_receipt['transactionHash'])['logs'][0]['data']
         print(f"retVal => {retVal}")
+        self.nonce = self.w3.eth.getTransactionCount(self.my_address)   
         return "testing aja"
 
     def retrieve_transcript(self, student_hash):
@@ -45,3 +46,12 @@ class Web3Helper:
             student_hash).call()
         print(f"retVal => {student_tc}")
         return "testing aja"
+    
+    
+    # buat def verifry
+    def verify_transcript(self, tc_hash, student_hash):
+        student_tc = self.counter.functions.verify_certificate_transcript(
+            student_hash, tc_hash).call()
+        print(f"retVal => {student_tc}")
+        return "testing aja"
+    
