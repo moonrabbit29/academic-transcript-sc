@@ -1,4 +1,3 @@
-#from crypt import methods
 from unittest import result
 from flask import Flask, request, jsonify, send_file
 from web3 import Web3
