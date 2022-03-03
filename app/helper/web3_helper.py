@@ -69,4 +69,4 @@ class Web3Helper(Hash):
             return {"status": 500, "data": {}, "message": f"Couldn't get transaction to be done. This {ex} causing an error"}
 
         student_tc = list(map(self.__simplified, student_tc_raw))
-        return {"status": 400, "data": student_tc, "message": "SUCCESS"}
+        return {"status": 200, "data": student_tc, "message": "SUCCESS"}
