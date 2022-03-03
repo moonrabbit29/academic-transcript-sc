@@ -1,4 +1,5 @@
 env
+venv
 __pycache__
 .env
 compiled_code.json

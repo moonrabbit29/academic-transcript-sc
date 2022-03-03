@@ -36,3 +36,12 @@ def retrieve():
     result = web3helper.retrieve_transcript(
         data['student_hash'])
     return jsonify(result), result["status"]
+
+#app route verify method post
+@app.route("/api/verifying-transcript", methods=['POST'])
+@cross_origin()
+def verifying():
+    data = request.get_json()
+    result = web3helper.verify_transcript(
+        data['student_hash'], data['tc_hash'])
+    return f"The configured secret key is Yahaloo."
