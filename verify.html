@@ -19,7 +19,7 @@
             <div class="sidebar-menu">
                 <ul>
                     <li>
-                        <a href="index.html" class="active"><span class="las la-home"></span>
+                        <a href="index.html" ><span class="las la-home"></span>
                             <span> Dashboard</span></a>
                     </li>
                     <li>
@@ -31,7 +31,7 @@
                             <span> GET Data</span></a>
                     </li>
                     <li>
-                        <a href="verify.html"><span class="las la-user-check"></span>
+                        <a href="verify.html" class="active"><span class="las la-user-check"></span>
                             <span> Verifying Data</span></a>
                     </li>
                 </ul>
@@ -60,7 +60,29 @@
                 </div>
             </header>
             <main>
-                
+                <div class="container">
+                    <form action="">
+                      <div class="row">
+                        <div class="col-25">
+                          <label for="tHash">Transcript Hash</label>
+                        </div>
+                        <div class="col-75">
+                          <input type="text" id="tHash" name="Transcript Hash" placeholder="bytes 32">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-25">
+                          <label for="sID">Student ID</label>
+                        </div>
+                        <div class="col-75">
+                          <input type="text" id="sID" name="Student ID" placeholder="bytes 32">
+                        </div>
+                        <div class="row">
+                          <input type="submit" value="Submit">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
             </main>
         </div>
     </body>
