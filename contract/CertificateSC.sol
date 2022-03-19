@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
-contract CertificateSC {
-    address payable public owner;
+import './Authorization.sol';
+
+contract CertificateSC is Authorization{
 
     struct Transcript {
         bytes32 transcript;
@@ -10,15 +11,6 @@ contract CertificateSC {
     }
 
     event IsSuccess(bool value);
-
-    constructor() payable {
-        owner = payable(msg.sender);
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
 
     mapping(bytes32 => Transcript[]) private studentToTranscript;
 
@@ -36,7 +28,7 @@ contract CertificateSC {
 
     function register_transcript(bytes32 transcriptHash, bytes32 studentId)
         public
-        onlyOwner
+        OnlyAuthorizeUser
         returns (bool success)
     {
         if (
@@ -56,7 +48,7 @@ contract CertificateSC {
     function retrieve_student_transcript(bytes32 studentId)
         public
         view
-        onlyOwner
+        OnlyAuthorizeUser
         returns (Transcript[] memory)
     {
         return studentToTranscript[studentId];
