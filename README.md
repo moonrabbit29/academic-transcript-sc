@@ -27,7 +27,7 @@ Move to project directory
 &emsp; run flask `flask run`
 
 ## TO DO
-- b̶u̶i̶l̶d̶ ̶p̶a̶g̶e̶ ̶i̶n̶s̶e̶r̶t̶ ̶d̶a̶t̶a̶,̶ ̶g̶e̶t̶ ̶d̶a̶t̶a̶,̶ ̶v̶e̶r̶i̶f̶y̶i̶n̶g̶ ̶d̶a̶t̶a̶
-- i̶m̶p̶l̶e̶m̶e̶n̶t̶ ̶w̶e̶b̶s̶i̶t̶e̶ ̶u̶s̶i̶n̶g̶ ̶f̶l̶a̶s̶k̶
-- build page that can interact with smart contract
-- test page
+- ✅b̶u̶i̶l̶d̶ ̶p̶a̶g̶e̶ ̶i̶n̶s̶e̶r̶t̶ ̶d̶a̶t̶a̶,̶ ̶g̶e̶t̶ ̶d̶a̶t̶a̶,̶ ̶v̶e̶r̶i̶f̶y̶i̶n̶g̶ ̶d̶a̶t̶a̶
+- ✅i̶m̶p̶l̶e̶m̶e̶n̶t̶ ̶w̶e̶b̶s̶i̶t̶e̶ ̶u̶s̶i̶n̶g̶ ̶f̶l̶a̶s̶k̶
+- ⏳build page that can interact with smart contract
+- ⏳test page
