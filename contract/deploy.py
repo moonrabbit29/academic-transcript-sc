@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from solcx import compile_standard, install_solc
+from solcx import compile_standard
 from web3 import Web3
 import os
 import json
@@ -8,10 +8,15 @@ load_dotenv()
 with open("contract/CertificateSC.sol", "r") as file:
     sertificate_sc_file = file.read()
 
+with open("contract/Authorization.sol", "r") as file:
+    authorization_sc_file = file.read()
+
 compiled_sol = compile_standard(
     {
         "language": "Solidity",
-        "sources": {"CertificateSC.sol": {"content": sertificate_sc_file}},
+        "sources": {
+            "CertificateSC.sol": {"content": sertificate_sc_file},
+            "Authorization.sol" : {"content" :authorization_sc_file}},
         "settings": {
             "outputSelection": {
                 "*": {
@@ -28,7 +33,7 @@ with open("compiled_code.json", "w") as file:
 
 # get bytecode
 bytecode = compiled_sol["contracts"]["CertificateSC.sol"]["CertificateSC"]["evm"][
-    "bytecode"
+"bytecode"
 ]["object"]
 
 # get abi
