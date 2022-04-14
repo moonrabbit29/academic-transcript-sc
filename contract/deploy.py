@@ -47,6 +47,7 @@ w3 = Web3(Web3.HTTPProvider(eth_endpoint))
 chain_id = 1337
 my_address = os.environ.get("ACCOUNT_ADDRESS_DEV")
 
+
 nonce = w3.eth.getTransactionCount(my_address)
 
 CertificateSC = w3.eth.contract(abi=abi, bytecode=bytecode)

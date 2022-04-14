@@ -54,8 +54,9 @@ def issuing():
     return response
 
 
-@app.route("/api/retrieve-transcript", methods=['POST'])
+@app.route("/api/retrieve-transcript", methods=['GET','POST'])
 @cross_origin()
+#TODO get data from html
 def retrieve():
     data = request.get_json()
     result = web3helper.retrieve_transcript(
@@ -63,8 +64,9 @@ def retrieve():
     return jsonify(result), result["status"]
 
 #app route verify method post
-@app.route("/api/verifying-transcript", methods=['POST'])
+@app.route("/api/verifying-transcript", methods=['GET','POST'])
 @cross_origin()
+# TODO get data from html
 def verifying():
     data = request.get_json()
     result = web3helper.verify_transcript(
