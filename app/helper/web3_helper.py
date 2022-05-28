@@ -8,7 +8,7 @@ class Web3Helper(Hash):
 
     def __simplified(self, tuple):
         ts = datetime.utcfromtimestamp(tuple[1]).strftime('%Y-%m-%d %H:%M:%S')
-        return {"data_hash": tuple[0].hex(), "timestamp": ts}
+        return {"data_hash": tuple[0], "timestamp": ts}
 
     def __init__(self, app):
         self.w3 = Web3(Web3.HTTPProvider(
@@ -57,10 +57,10 @@ class Web3Helper(Hash):
         block_hash = tx_receipt["blockHash"].hex()
         if(is_file_not_present and tx_receipt['status']):
             self.nonce = self.w3.eth.getTransactionCount(self.my_address)
-            return {"status": 400, "data": {"tx_hash": transaction_hash, "block_hash": block_hash}, "message": "SUCCESS"}
+            return {"status": 200, "data": {"tx_hash": transaction_hash, "block_hash": block_hash}, "message": "SUCCESS"}
         elif (not is_file_not_present):
             self.nonce = self.w3.eth.getTransactionCount(self.my_address)
-            return {"status": 200, "data": {"tx_hash": transaction_hash, "block_hash": block_hash}, "message": "Data already in blockchain"}
+            return {"status": 400, "data": {"tx_hash": transaction_hash, "block_hash": block_hash}, "message": "Data already in blockchain"}
         return {"status": 304, "data": {}, "message": "Transaction failed, failed to add transcript to blockchain"}
 
     def retrieve_transcript(self, student_hash):
@@ -73,8 +73,8 @@ class Web3Helper(Hash):
         student_tc = list(map(self.__simplified, student_tc_raw))
         return {"status": 200, "data": student_tc, "message": "SUCCESS"}
 
-    def verify_transcript(self, tc_hash, student_hash):
+    def verify_transcript(self, tc_hash, student_hash,student_id):
         student_tc = self.counter.functions.verify_certificate_transcript(
-            student_hash, tc_hash).call()
-        print(f"retVal => {student_tc}")
-        return "testing aja"
+            tc_hash,student_hash).call()
+        return {"status":200 if student_tc else 400,"data":student_tc,"message":f"certificate valid own by {student_id}"
+                if student_tc else "certificate not valid"}

@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+#To deploy smart contract
+if ! [ -x "$(command -v git)" ]; 
+then
+    echo "<the_command> could not be found"
+    exit
+fi
+pip install py-solc-x
+exec python contract/deploy.py $@

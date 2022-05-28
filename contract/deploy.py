@@ -3,7 +3,26 @@ from solcx import compile_standard
 from web3 import Web3
 import os
 import json
+import sys
 load_dotenv()
+
+environtment = sys.argv[1] if sys.argv else "development"
+
+if environtment == "development" : 
+    # connecting to ganache
+    eth_endpoint = os.environ.get('ETHEREUM_ENDPOINT_URI_DEVELOPMENT')
+    # private ethereum 
+    private_key = os.environ.get("PRIVATE_KEY_DEV")
+    # address
+    my_address = os.environ.get("ACCOUNT_ADDRESS_DEV")
+else :
+    # connecting to ganache
+    eth_endpoint = os.environ.get('ETHEREUM_ENDPOINT_URI_PROD')
+    # private ethereum 
+    private_key = os.environ.get("PRIVATE_KEY_PROD")
+    # address
+    my_address = os.environ.get("ACCOUNT_ADDRESS_PROD")
+
 
 with open("contract/CertificateSC.sol", "r") as file:
     sertificate_sc_file = file.read()
@@ -41,11 +60,9 @@ abi = json.loads(
     compiled_sol["contracts"]["CertificateSC.sol"]["CertificateSC"]["metadata"]
 )["output"]["abi"]
 
-# connecting to ganache
-eth_endpoint = os.environ.get('ETHEREUM_ENDPOINT_URI_DEVELOPMENT')
+
 w3 = Web3(Web3.HTTPProvider(eth_endpoint))
 chain_id = 1337
-my_address = os.environ.get("ACCOUNT_ADDRESS_DEV")
 
 nonce = w3.eth.getTransactionCount(my_address)
 
@@ -61,8 +78,6 @@ transaction = CertificateSC.constructor().buildTransaction(
 )
 
 # Sign the transaction
-# deploy in local ganache use private_key_dev
-private_key = os.environ.get("PRIVATE_KEY_DEV")
 # store transaction 4:16:43
 print(f"private key {private_key}")
 signed_txn = w3.eth.account.sign_transaction(

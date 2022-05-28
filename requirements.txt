@@ -31,6 +31,8 @@ greenlet==1.1.2
 hexbytes==0.2.2
 html5lib==1.1
 idna==3.3
+importlib-metadata==4.11.3
+importlib-resources==5.6.0
 ipfshttpclient==0.8.0a2
 itsdangerous==2.1.0
 Jinja2==3.0.3
@@ -77,4 +79,5 @@ websockets==9.1
 Werkzeug==2.0.3
 xhtml2pdf==0.2.6
 yarl==1.7.2
+zipp==3.8.0
 zopfli==0.2.1

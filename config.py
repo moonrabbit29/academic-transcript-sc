@@ -18,5 +18,5 @@ class DevelopmentConfig(Config):
     ACCOUNT = os.environ.get("ACCOUNT_ADDRESS_DEV")
     ACCOUNT_KEY = os.environ.get("PRIVATE_KEY_DEV")
     ETHEREUM_ENDPOINT_URI = os.environ.get("ETHEREUM_ENDPOINT_URI_DEVELOPMENT")
-    SMART_CONTRACT_ADDRESS = os.environ.get("ETHEREUM_CONTRACT_ADDRESS_DEV")
+    SMART_CONTRACT_ADDRESS = os.environ.get("ETHEREUM_CONTRACT_ADDRESS")
     CHAIN_ID = 1337
