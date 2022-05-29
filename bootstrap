@@ -1,0 +1,20 @@
+#!/bin/bash
+
+pip install py-solc-x 
+# Local .env
+if [ -f .env ]; then
+  echo "reading env file"
+
+  export $(grep -v '^#' .env | xargs)
+  echo $(xargs)
+fi
+#eval ganache  --wallet.accounts=
+
+
+
+# Directory="/env"
+
+# if [ -d "$Directory" ];
+# pip install virtualenv
+# pip install requirement.txt
+

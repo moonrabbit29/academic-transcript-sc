@@ -3,6 +3,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract Authorization {
 
+
    address payable public owner;
    mapping(address => bool) AuthorizeUser;
 
@@ -21,7 +22,7 @@ contract Authorization {
    }
 
    modifier OnlyAuthorizeUser() {
-      require(msg.sender == owner || AuthorizeUser[msg.sender] );
+      require(msg.sender == owner || AuthorizeUser[msg.sender]);
       _;
    }
    

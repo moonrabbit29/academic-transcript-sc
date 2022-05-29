@@ -6,7 +6,7 @@ import './Authorization.sol';
 contract CertificateSC is Authorization{
 
     struct Transcript {
-        bytes32 transcript;
+        string transcript;
         uint256 Timestamp;
     }
 
@@ -15,18 +15,18 @@ contract CertificateSC is Authorization{
     mapping(bytes32 => Transcript[]) private studentToTranscript;
 
     function is_transcript_exist(
-        bytes32 hash_data,
+        string memory hash_data,
         Transcript[] memory arrayTranscript
     ) private pure returns (bool) {
         for (uint256 i = 0; i < arrayTranscript.length; i++) {
-            if (arrayTranscript[i].transcript == hash_data) {
+            if (keccak256(abi.encodePacked(arrayTranscript[i].transcript)) == keccak256(abi.encodePacked(hash_data)) ) {
                 return true;
             }
         }
         return false;
     }
 
-    function register_transcript(bytes32 transcriptHash, bytes32 studentId)
+    function register_transcript(string memory transcriptHash, bytes32 studentId)
         public
         OnlyAuthorizeUser
         returns (bool success)
@@ -48,14 +48,15 @@ contract CertificateSC is Authorization{
     function retrieve_student_transcript(bytes32 studentId)
         public
         view
-        OnlyAuthorizeUser
+        // OnlyAuthorizeUser
         returns (Transcript[] memory)
-    {
-        return studentToTranscript[studentId];
+    {   
+        Transcript[] memory transcript_data = studentToTranscript[studentId];
+        return transcript_data;
     }
 
     function verify_certificate_transcript(
-        bytes32 transcriptHash,
+        string memory transcriptHash,
         bytes32 studentId
     ) public view returns (bool) {
         bool transcriptExist = is_transcript_exist(
