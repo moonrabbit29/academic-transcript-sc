@@ -32,6 +32,7 @@ class Web3Helper(Hash):
         return abi
 
     def issuing_transcript(self, tc_hash, student_hash):
+        self.nonce = self.w3.eth.getTransactionCount(self.my_address)
         register_tc_tx = self.counter.functions.register_transcript(tc_hash, student_hash).buildTransaction(
             {
                 "chainId": self.chain_id, "gasPrice": self.w3.eth.gas_price, "from": self.my_address, "nonce": self.nonce
@@ -39,7 +40,6 @@ class Web3Helper(Hash):
         )
         signed_register_txn = self.w3.eth.account.sign_transaction(
             register_tc_tx, private_key=self.private_key)
-
         try:
             send_register_tx = self.w3.eth.send_raw_transaction(
                 signed_register_txn.rawTransaction)
@@ -52,6 +52,7 @@ class Web3Helper(Hash):
             return {"status": 500, "data": {}, "message": "Couldn't get transaction receipt timeout"}
         except Exception as ex:
             return {"status": 500, "data": {}, "message": f"Couldn't get transaction receipt. This {ex} causing an error"}
+        print(tx_receipt['status'])
         is_file_not_present = int(tx_receipt['logs'][0]['data'][2:])
         transaction_hash = tx_receipt["transactionHash"].hex()
         block_hash = tx_receipt["blockHash"].hex()
@@ -61,7 +62,7 @@ class Web3Helper(Hash):
         elif (not is_file_not_present):
             self.nonce = self.w3.eth.getTransactionCount(self.my_address)
             return {"status": 400, "data": {"tx_hash": transaction_hash, "block_hash": block_hash}, "message": "Data already in blockchain"}
-        return {"status": 304, "data": {}, "message": "Transaction failed, failed to add transcript to blockchain"}
+        return {"status": 403, "data": {}, "message": "Transaction failed, failed to add transcript to blockchain"}
 
     def retrieve_transcript(self, student_hash):
         try:
