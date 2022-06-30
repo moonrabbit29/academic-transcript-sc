@@ -15,13 +15,14 @@ if environtment == "development" :
     private_key = os.environ.get("PRIVATE_KEY_DEV")
     # address
     my_address = os.environ.get("ACCOUNT_ADDRESS_DEV")
+    chain_id = 1337
 else :
-    # connecting to ganache
     eth_endpoint = os.environ.get('ETHEREUM_ENDPOINT_URI_PROD')
     # private ethereum 
     private_key = os.environ.get("PRIVATE_KEY_PROD")
     # address
     my_address = os.environ.get("ACCOUNT_ADDRESS_PROD")
+    chain_id = 4
 
 
 with open("contract/CertificateSC.sol", "r") as file:
@@ -62,7 +63,6 @@ abi = json.loads(
 
 
 w3 = Web3(Web3.HTTPProvider(eth_endpoint))
-chain_id = 1337
 
 nonce = w3.eth.getTransactionCount(my_address)
 

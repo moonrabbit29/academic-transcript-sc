@@ -37,6 +37,8 @@ def issuing():
         return 500,jsonify({"Error" : str(ex)})
     result = web3helper.issuing_transcript(
         tc_hash, student_num_hash)
+    if(result['status'] != 200) :
+        return jsonify(result),result['status']
     response = make_response(send_file(tc_document,
             as_attachment=True,mimetype='application/pdf',attachment_filename="result.pdf"))
     response.headers['result'] = result
